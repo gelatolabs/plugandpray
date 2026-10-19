@@ -1,0 +1,168 @@
+{
+ "instruments": {
+  "EPiano": {
+   "file": "EPiano.wav",
+   "root": 60,
+   "rate": 22212.854447457277,
+   "loop": [
+    6160,
+    8792
+   ],
+   "envelope": {
+    "attack": 0.002,
+    "decay": 0.0,
+    "sustain": 1.0,
+    "sustain_fade": 3.5,
+    "release": 0.25
+   },
+   "volume": 0.8
+  },
+  "Strings": {
+   "file": "Strings.wav",
+   "root": 60,
+   "rate": 22088.67272752197,
+   "loop": [
+    112,
+    16660
+   ],
+   "envelope": {
+    "attack": 0.25,
+    "decay": 0.0,
+    "sustain": 1.0,
+    "sustain_fade": 0,
+    "release": 0.45
+   },
+   "volume": 0.6
+  },
+  "Slap Bass": {
+   "file": "Slap Bass.wav",
+   "root": 36,
+   "rate": 20668.41965874729,
+   "loop": [
+    4200,
+    6412
+   ],
+   "envelope": {
+    "attack": 0.0,
+    "decay": 0.0,
+    "sustain": 1.0,
+    "sustain_fade": 1.6,
+    "release": 0.06
+   },
+   "volume": 0.9
+  },
+  "Synth Lead": {
+   "file": "Synth Lead.wav",
+   "root": 72,
+   "rate": 22053.658178180987,
+   "loop": [
+    1680,
+    5684
+   ],
+   "envelope": {
+    "attack": 0.008,
+    "decay": 0.0,
+    "sustain": 1.0,
+    "sustain_fade": 0,
+    "release": 0.12
+   },
+   "volume": 0.7
+  },
+  "Bells": {
+   "file": "Bells.wav",
+   "root": 72,
+   "rate": 21838.330205468836,
+   "loop": [
+    8400,
+    12824
+   ],
+   "envelope": {
+    "attack": 0.0,
+    "decay": 0.0,
+    "sustain": 1.0,
+    "sustain_fade": 2.5,
+    "release": 0.9
+   },
+   "volume": 0.6
+  },
+  "Pad": {
+   "file": "Pad.wav",
+   "root": 60,
+   "rate": 16026.320069065021,
+   "loop": [
+    112,
+    16100
+   ],
+   "envelope": {
+    "attack": 0.6,
+    "decay": 0.0,
+    "sustain": 1.0,
+    "sustain_fade": 0,
+    "release": 0.9
+   },
+   "volume": 0.55
+  }
+ },
+ "drums": {
+  "Kick": {
+   "file": "Drums/Kick.wav",
+   "rate": 22050,
+   "volume": 1.0
+  },
+  "Snare": {
+   "file": "Drums/Snare.wav",
+   "rate": 22050,
+   "volume": 0.85
+  },
+  "Clap": {
+   "file": "Drums/Clap.wav",
+   "rate": 22050,
+   "volume": 0.8
+  },
+  "Closed Hat": {
+   "file": "Drums/Closed Hat.wav",
+   "rate": 32000,
+   "volume": 0.5
+  },
+  "Open Hat": {
+   "file": "Drums/Open Hat.wav",
+   "rate": 32000,
+   "volume": 0.5
+  },
+  "Low Tom": {
+   "file": "Drums/Low Tom.wav",
+   "rate": 22050,
+   "volume": 0.8
+  },
+  "High Tom": {
+   "file": "Drums/High Tom.wav",
+   "rate": 22050,
+   "volume": 0.8
+  },
+  "Crash": {
+   "file": "Drums/Crash.wav",
+   "rate": 32000,
+   "volume": 0.55
+  }
+ },
+ "drum_map": {
+  "35": "Kick",
+  "36": "Kick",
+  "38": "Snare",
+  "40": "Snare",
+  "39": "Clap",
+  "42": "Closed Hat",
+  "44": "Closed Hat",
+  "46": "Open Hat",
+  "41": "Low Tom",
+  "43": "Low Tom",
+  "45": "Low Tom",
+  "47": "High Tom",
+  "48": "High Tom",
+  "50": "High Tom",
+  "49": "Crash",
+  "52": "Crash",
+  "55": "Crash",
+  "57": "Crash"
+ }
+}

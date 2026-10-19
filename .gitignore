@@ -1,0 +1,20 @@
+# toolchains, dependencies and caches (recreate with `make setup`)
+/tools
+/third_party
+/.cache
+/node_modules
+# build output (recreate with `make`)
+/build/
+/dist/
+/web/public/emu/
+/web/public/roms/
+/gb/*/assets.c
+/gb/*/assets.h
+.DS_Store
+# editor settings with this machine's paths
+.clangd
+*.blend1
+__pycache__/
+# the composing previews (assets/music/tools: make_gb_preview.py, preview.mjs)
+/assets/music/gb-preview/
+/assets/music/preview-*.wav

@@ -1,0 +1,115 @@
+/* the GB games' pixel font (assets/make_webfont.py): at 16px a pixel is 2px */
+@font-face { font-family: 'GelatoBoy'; src: url('/fonts/gelatoboy.ttf') format('truetype'); font-display: block; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: system-ui, sans-serif;
+  /* no text selection or callout on a long press (iOS) */
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+* { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+#app { position: fixed; inset: 0; }   /* (the whole screen: see App's fit) */
+/* (an iPhone's home screen app: the screen's size, which the page may not be: see fitScreen in app.js) */
+html.standalone, html.standalone body { width: var(--screen-w); height: var(--screen-h); }
+html.standalone #app, html.standalone #title, html.standalone #touch { inset: auto; top: 0; left: 0; width: var(--screen-w); height: var(--screen-h); }
+#app, #app canvas { display: block; width: 100%; height: 100%; }
+#hud { position: fixed; top: 12px; left: 12px; color: #f4ecdf; font-size: 13px; line-height: 1.4;
+  background: rgba(16, 16, 24, 0.55); padding: 8px 12px; border-radius: 6px; pointer-events: none; }
+#hud[hidden] { display: none; }
+#hud p { margin: 2px 0; }
+/* just above the reticle */
+#status { position: fixed; left: 0; right: 0; bottom: calc(50% + 28px); text-align: center;
+  color: #f4ecdf; font-size: 18px; pointer-events: none; }
+#status:empty { display: none; }
+/* loading: no reticle until it's running */
+body.loading #reticle, body.loading #right-hint { display: none; }
+#info { white-space: pre-line; font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+/* a message (the cheat, the iPhone's fullscreen): like the corner's buttons, at the top, below
+   them (Fullscreen, Enter VR: each about 42px tall, and 8px between) */
+#toast { position: fixed; top: calc(12px + 42px * 2 + 8px + 12px); left: 50%; transform: translateX(-50%); max-width: min(640px, calc(100% - 32px));
+  padding: 8px 14px; line-height: 1.4; opacity: 0; transition: opacity 0.4s; pointer-events: none; text-align: center; }
+#toast.show { opacity: 1; }
+/* the title: "Click to start", which becomes a loading bar, on the end room's
+   GB-screen walls (title.js draws them on .backdrop; the green is until it does) */
+#title { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center;
+  background: #90ba42; cursor: pointer; user-select: none; }
+/* the wall goes over the text and loading bar: they show through its hole (and the bar as it opens) */
+#title.walled { background: #000; }
+#title .backdrop { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+#title .start, #title .bar { position: relative; z-index: 1;
+  translate: var(--hole-x, 0) var(--hole-y, 0); }                 /* (in the middle of the hole: see title.js) */
+#title .start { translate: var(--start-x, 0) var(--start-y, 0); }   /* (in the middle of its solid black) */
+/* a rainbow glow running along the text, pulsing a little (blurred copies of
+   the text, painted with it, behind the white) */
+#title .start { color: #fff; font: 16px 'GelatoBoy', monospace; -webkit-font-smoothing: none; font-smooth: never; }
+#title .start::before, #title .start::after { content: attr(data-text); position: absolute; inset: 0; z-index: -1;
+  color: transparent; -webkit-background-clip: text; background-clip: text;
+  background-image: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+  background-size: 200% 100%; animation: run 2.5s linear infinite; }
+#title .start::before { filter: blur(8px); -webkit-text-stroke: 6px transparent; animation: run 2.5s linear infinite, pulse 1.96s ease-in-out infinite; }
+#title .start::after { filter: blur(2px); }
+#title .start > span { position: relative; }
+@keyframes run { from { background-position: 0 0; } to { background-position: -200% 0; } }
+@keyframes pulse { 50% { opacity: 0.6; } }
+#title .bar { display: none; width: min(320px, 60vw); height: 12px; border: 2px solid #fff; padding: 2px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5), inset 0 0 6px rgba(255, 255, 255, 0.25); }
+/* filled with the same rainbow running along it (sized to the whole bar, so it doesn't squash as it fills), glowing */
+#title .bar { --w: min(320px, 60vw); }
+#title .bar > div, #title .bar > div::after { background-image: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+  background-size: calc(var(--w) * 2) 100%; animation: run-bar 2.5s linear infinite; }
+#title .bar > div { position: relative; width: 0; height: 100%; transition: width 0.2s; }
+#title .bar > div::after { content: ''; position: absolute; inset: 0; z-index: -1; filter: blur(6px); }
+@keyframes run-bar { to { background-position: calc(var(--w) * -2) 0; } }
+#title.loading { cursor: default; }
+#title.loading .start { display: none; }
+#title.loading .bar { display: block; }
+/* once it's loaded, the game comes on like a CRT: a bright line opening up into the picture */
+#app.crt-on { animation: crt-on 0.8s ease-out both; }
+@keyframes crt-on {
+  0% { transform: scale(0.02, 0.004); filter: brightness(6); }
+  25% { transform: scale(1, 0.006); filter: brightness(5); }
+  60% { transform: scale(1, 1); filter: brightness(2); }
+  100% { transform: none; filter: none; }
+}
+/* the view through the Virtualato */
+#virtualato { position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+  background: #000; pointer-events: none; }
+#virtualato.on { display: flex; }
+#virtualato canvas { width: min(100vw, calc(100vh * 384 / 224)); height: auto; image-rendering: pixelated; }
+#virtualato .cups { position: absolute; inset: 0;
+  background: radial-gradient(ellipse 62% 70% at 50% 50%, transparent 72%, rgba(0, 0, 0, 0.85) 92%, #000 100%); }
+#hud, #toast { z-index: 2; }
+/* the reticle, what clicking does, and what right-clicking does */
+#reticle { position: fixed; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 3; }
+#reticle .dot { position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255, 248, 232, 0.85); box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.45); transition: transform 0.12s; }
+#reticle.active .dot { transform: scale(1.6); background: #0f0; }
+#reticle-label { position: absolute; top: 14px; left: 0; transform: translateX(-50%); white-space: nowrap;
+  color: #fff8e8; font-size: 13px;   /* (a tight dark outline all round, then a soft one: it reads over white pages too) */
+  text-shadow: 0 0 1px #000, 0 0 1px #000, 0 0 2px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.6); }
+#right-hint { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 3; pointer-events: none;
+  color: #fff8e8; font-size: 18px; background: rgba(16, 16, 24, 0.6); padding: 8px 16px; border-radius: 8px; }
+#right-hint:empty { display: none; }
+/* the buttons in the top right corner: Fullscreen above Enter VR */
+#corner { position: fixed; top: 12px; right: 12px; z-index: 4; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+/* (the toast too) square, a thick green edge, green letters in the GB games' font */
+#vr-button, #fs-button, #toast { border: 4px solid #0f0; border-radius: 0; background: rgba(0, 0, 0, 0.8);
+  color: #0f0; font: 16px 'GelatoBoy', monospace; -webkit-font-smoothing: none; }
+#vr-button, #fs-button { padding: 8px 14px; cursor: pointer; }
+#vr-button { order: 1; }
+#vr-button[hidden], #fs-button[hidden] { display: none; }
+#vr-button:hover, #fs-button:hover { background: #0f0; color: #000; }
+/* touch controls */
+#touch { position: fixed; inset: 0; z-index: 3; pointer-events: none; user-select: none; -webkit-user-select: none; }
+#touch[hidden] { display: none; }
+#touch .tbtn { position: absolute; pointer-events: auto; display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 12px; background: rgba(16, 16, 24, 0.45); color: rgba(255, 248, 232, 0.85);
+  font: 700 18px sans-serif; border: 2px solid rgba(255, 248, 232, 0.25); touch-action: none; }
+#touch .tbtn.on { background: rgba(0, 255, 0, 0.35); }
+#touch .t-up { left: 76px; bottom: 140px; } #touch .t-down { left: 76px; bottom: 20px; }
+#touch .t-left { left: 16px; bottom: 80px; } #touch .t-right { left: 136px; bottom: 80px; }
+#touch .t-a { right: 20px; bottom: 96px; width: 68px; height: 68px; border-radius: 50%; }
+#touch .t-b { right: 100px; bottom: 40px; width: 68px; height: 68px; border-radius: 50%; }
+#touch .tbtn svg { width: 22px; height: 22px; fill: currentColor; }
+#touch .tstick { position: absolute; display: none; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%;
+  border: 2px solid rgba(255, 248, 232, 0.35); background: rgba(16, 16, 24, 0.25); }
+#touch .tknob { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 248, 232, 0.55); }
+#touch .tright { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); display: none; pointer-events: auto;
+  padding: 10px 18px; border-radius: 8px; background: rgba(16, 16, 24, 0.7); color: #fff8e8; font: 600 15px sans-serif; touch-action: none; }
+body.touching #right-hint { display: none; }

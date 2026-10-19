@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- added to the home screen, it opens fullscreen (an iPhone's only way to) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Plug and Pray" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <title>Plug and Pray · Gelato Labs</title>
+    <link rel="icon" type="image/png" href="./icons/favicon.png" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="hud" hidden><p id="info"></p></div>
+    <div id="toast"></div>
+    <div id="reticle"><div class="dot"></div><div id="reticle-label"></div></div>
+    <div id="right-hint"></div>
+    <div id="corner"></div>
+    <div id="title">
+      <div class="start" data-text="Click to start"><span>Click to start</span></div>
+      <div class="bar"><div></div></div>
+    </div>
+    <div id="status"></div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
