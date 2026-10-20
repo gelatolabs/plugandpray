@@ -851,11 +851,14 @@ class App {
     const rc = new THREE.Raycaster(ray.origin, ray.direction);
     const targets = [this.world.gb.screen, this.world.crt.screen];
     const blockers = [this.world.gb.group, this.world.crt.group, this.world.station.group];
-    const hit = rc.intersectObjects(blockers, true)[0];
+    // a screen counts unless something's really in front of it (the models' own
+    // screen faces lie flush with it, and would otherwise catch a third of the shots)
+    const first = rc.intersectObjects(blockers, true)[0];
+    const hit = rc.intersectObjects(targets, false)[0];
     const muzzle = this.items.zapper.object.localToWorld(new THREE.Vector3(0, 0.02, 0.11));
     this.audio.sfx('zap', muzzle);
     this.zapGlow = 1;   // its round front flashes green (see updateZap)
-    if (!hit || !targets.includes(hit.object)) return null;
+    if (!hit || (first && first.distance < hit.distance - 0.003)) return null;
     let u = hit.uv.x, v = 1 - hit.uv.y;
     const sys = hit.object === this.world.gb.screen ? 'gb' : 'ps1';
     if (sys === 'ps1') [u, v] = crtCurve(u, v);
